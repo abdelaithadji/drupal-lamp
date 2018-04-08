@@ -48,6 +48,14 @@ ADD supporting_files/supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-
 RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/5.6/apache2/php.ini
 RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/5.6/cli/php.ini
 
+# Add Drupal
+curl -LO https://ftp.drupal.org/files/projects/drupal-8.0.0.zip
+unzip drupal-8.0.0.zip -d /app
+rm -rf /app/drupal-8.0.0.zip
+mv /app/drupal-8.0.0/* /app
+rm -rf /app/drupal-8.0.0
+
+
 # Remove pre-installed database
 RUN rm -rf /var/lib/mysql
 
@@ -86,3 +94,5 @@ VOLUME  ["/etc/mysql", "/var/lib/mysql", "/app" ]
 
 EXPOSE 80 3306
 CMD ["/run.sh"]
+
+
