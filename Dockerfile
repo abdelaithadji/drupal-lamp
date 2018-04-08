@@ -49,11 +49,16 @@ RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/5.6/ap
 RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/5.6/cli/php.ini
 
 # Add Drupal
-curl -LO https://ftp.drupal.org/files/projects/drupal-8.0.0.zip -d /app
-unzip /app/drupal-8.0.0.zip
-rm -rf /app/drupal-8.0.0.zip
-mv /app/drupal-8.0.0/* /app
-rm -rf /app/drupal-8.0.0
+RUN apt-get update -qq \
+&& apt-get install -y wget
+RUN cd /app \
+&& wget https://ftp.drupal.org/files/projects/drupal-8.0.0.zip \
+&& unzip drupal-8.0.0.zip \
+&& cd drupal-8.0.0 \
+&& mv /app/* /app \
+&& rm -f /appdrupal-8.0.0.zip \
+&& rm -rf /appdrupal-8.0.0
+
 
 
 # Remove pre-installed database
